@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101722">
+<title>Riley Fit</title>
+<style>
+:root{--bg:#101722;--panel:#192434;--panel2:#202e40;--line:#2b3a4d;--text:#f4f7fb;--muted:#a8b5c6;--lime:#b9f36b;--blue:#78b7ff;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font-weight:700;background:var(--lime);color:#14200d}input,select{width:100%;background:#111b28;border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--text);margin-top:5px}label{font-size:13px;color:var(--muted);display:block;margin-bottom:12px}header{padding:22px 18px 14px;background:linear-gradient(145deg,#1a293b,#101722)}.brand{display:flex;align-items:center;gap:12px}.logo{background:var(--lime);color:#14200d;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-weight:1000;font-size:21px}.brand h1{font-size:22px;letter-spacing:1.5px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.date{color:var(--muted);font-size:12px;margin-top:20px}.wrap{max-width:720px;margin:auto;padding:14px 14px 96px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:5px 0 16px}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}.stat span{font-size:11px;color:var(--muted);display:block}.stat strong{display:block;font-size:22px;margin-top:5px}.stat small{color:var(--muted);font-size:11px}.section-title{font-size:18px;margin:20px 2px 10px}.card{margin-bottom:12px}.card h3{margin:0 0 8px;font-size:16px}.muted{color:var(--muted);font-size:13px}.row{display:flex;gap:9px;align-items:center}.row>*{flex:1}.tabs{position:fixed;bottom:0;left:0;right:0;background:#121c29;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:5}.tabs button{background:transparent;color:var(--muted);padding:8px 6px;font-size:11px;flex:1}.tabs button.active{color:var(--lime)}.tabs span{display:block;font-size:19px;margin-bottom:2px}.primary{width:100%;margin-top:3px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.tiny{padding:7px 10px;font-size:12px}.list-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.list-item:last-child{border-bottom:0}.list-item .desc{flex:1}.list-item strong{display:block}.list-item small{color:var(--muted)}.tag{font-size:11px;color:var(--lime);background:#293c29;padding:4px 7px;border-radius:7px}.hidden{display:none!important}.notice{background:#2a2a20;border:1px solid #5a5737;border-radius:12px;padding:11px;color:#e8dfac;font-size:12px;margin-bottom:12px}.photo-box{border:1px dashed #53657a;border-radius:14px;padding:16px;text-align:center;background:#131e2c}.photo-box img{max-width:100%;max-height:240px;border-radius:10px;margin-top:12px}.progress{height:8px;background:#101722;border-radius:9px;overflow:hidden;margin:8px 0}.progress div{height:100%;background:var(--lime);width:0}.empty{text-align:center;color:var(--muted);padding:18px 5px;font-size:13px}.danger{color:var(--red);background:transparent;border:1px solid #684047}.footer-note{font-size:11px;color:var(--muted);text-align:center;margin:20px 0}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">RF</div><div><h1>RILEY FIT</h1><p>TRAIN SMART. EAT RIGHT. GET STRONGER.</p></div></div><div class="date" id="today"></div></header>
+<main class="wrap">
+<section id="home">
+<div class="stats">
+ <div class="stat"><span>WORKOUTS LOGGED</span><strong id="workoutCount">0</strong><small>all time</small></div>
+ <div class="stat"><span>PROTEIN TODAY</span><strong id="proteinTotal">0g</strong><small id="proteinGoalText">Target 150g</small></div>
+ <div class="stat"><span>CALORIES TODAY</span><strong id="calorieTotal">0</strong><small>kcal estimated</small></div>
+</div>
+<div class="card"><h3>Today's protein</h3><div class="progress"><div id="proteinBar"></div></div><div class="row"><span class="muted" id="proteinRemaining">150g remaining</span><button class="secondary tiny" onclick="showTab('food')">Log food</button></div></div>
+<h2 class="section-title">Quick actions</h2>
+<div class="row"><button onclick="showTab('workout')">＋ Log workout</button><button class="secondary" onclick="showTab('food')">📷 Add a meal</button></div>
+<h2 class="section-title">Recent activity</h2><div class="card" id="recentActivity"><div class="empty">Your workouts and meals will appear here.</div></div>
+<div class="footer-note">Your entries are saved in this browser on this device.</div>
+</section>
+<section id="workout" class="hidden">
+<h2 class="section-title">Workout tracker</h2>
+<div class="card">
+<h3>Log an exercise</h3>
+<label>Exercise<select id="exercise">
+<optgroup label="Chest & arms"><option>Push-ups</option><option>Knee push-ups</option><option>Diamond push-ups</option><option>Barbell bench press</option><option>Barbell curls</option><option>Triceps extensions</option></optgroup>
+<optgroup label="Back & shoulders"><option>Towel rows</option><option>Negative pull-ups</option><option>Barbell rows</option><option>Wall angels</option><option>Rear-delt raises</option><option>Lower-trap raises</option></optgroup>
+<optgroup label="Core"><option>Plank</option><option>Crunches</option><option>Reverse crunches</option><option>Leg raises</option><option>Side plank</option><option>Bicycle crunches</option></optgroup>
+<optgroup label="Legs"><option>Bodyweight squats</option><option>Lunges</option><option>Glute bridges</option><option>Barbell squats</option><option>Romanian deadlifts</option><option>Calf raises</option></optgroup>
+<optgroup label="Posture & neck"><option>Back extensions</option><option>Neck isometrics</option></optgroup>
+<optgroup label="Cardio"><option>Running</option><option>Walking</option></optgroup>
+</select></label>
+<div class="row"><label>Sets<input id="sets" type="number" min="1" value="3"></label><label>Reps / minutes<input id="reps" type="number" min="1" value="10"></label></div>
+<div class="row"><label>Weight (kg, optional)<input id="weight" type="number" min="0" step="0.5" placeholder="e.g. 20"></label><label>Duration (min, optional)<input id="duration" type="number" min="0" placeholder="e.g. 30"></label></div>
+<label>Notes (optional)<input id="workoutNotes" placeholder="How did it feel?"></label>
+<button class="primary" onclick="addWorkout()">Save exercise</button>
+</div>
+<div class="card"><h3>Workout history</h3><div id="workoutHistory" class="empty">No exercises logged yet.</div></div>
+</section>
+<section id="food" class="hidden">
+<h2 class="section-title">Food scanner & diary</h2>
+<div class="notice">Photo nutrition is not AI-powered yet. This first version lets you attach a food photo and enter or correct the estimated nutrition. We'll connect a secure AI service in a later step.</div>
+<div class="card">
+<h3>📸 Add a meal photo</h3>
+<div class="photo-box"><label style="margin:0;color:var(--text)">Take a photo or choose an image<input id="foodPhoto" type="file" accept="image/*" capture="environment" onchange="previewPhoto(event)"></label><img id="photoPreview" class="hidden" alt="Meal preview"></div>
+</div>
+<div class="card">
+<h3>Meal nutrition</h3>
+<label>Meal name / ingredients<input id="mealName" placeholder="e.g. beans, 3 eggs and bread"></label>
+<div class="row"><label>Calories (kcal)<input id="mealCalories" type="number" min="0" placeholder="e.g. 650"></label><label>Protein (g)<input id="mealProtein" type="number" min="0" step="0.1" placeholder="e.g. 32"></label></div>
+<div class="row"><label>Carbs (g)<input id="mealCarbs" type="number" min="0" step="0.1" placeholder="e.g. 85"></label><label>Fat (g)<input id="mealFat" type="number" min="0" step="0.1" placeholder="e.g. 20"></label></div>
+<label>Fibre (g, optional)<input id="mealFibre" type="number" min="0" step="0.1" placeholder="if known"></label>
+<button class="primary" onclick="addMeal()">Save meal</button>
+</div>
+<div class="card"><h3>Today's food diary</h3><div id="foodHistory" class="empty">No meals logged yet.</div></div>
+</section>
+<section id="progress" class="hidden">
+<h2 class="section-title">Progress</h2>
+<div class="card"><h3>Body weight</h3><label>Current weight (kg)<input id="bodyWeight" type="number" min="0" step="0.1" placeholder="e.g. 81"></label><button class="primary" onclick="saveWeight()">Save weight</button><div id="weightHistory" class="muted" style="margin-top:12px">No weigh-ins recorded yet.</div></div>
+<div class="card"><h3>Data & privacy</h3><p class="muted">This prototype stores information in your current browser. Clearing browser data can erase it. It does not yet sync between devices or use an online account.</p><button class="secondary" onclick="exportData()">Export my data</button> <button class="danger tiny" onclick="clearData()">Clear all data</button></div>
+</section>
+<section id="settings" class="hidden">
+<h2 class="section-title">Targets & settings</h2>
+<div class="card"><h3>Daily nutrition targets</h3><label>Protein target (g)<input id="proteinGoal" type="number" min="1" value="150"></label><label>Calorie target (kcal)<input id="calorieGoal" type="number" min="1" value="2600"></label><button class="primary" onclick="saveGoals()">Save targets</button></div>
+<div class="card"><h3>About Riley Fit</h3><p class="muted">A first working prototype. Your personal exercise library and manually entered nutrition are available now. AI photo analysis, cloud sync, accounts, and public-user support are future upgrades.</p></div>
+</section>
+</main>
+<nav class="tabs">
+<button class="active" data-tab="home" onclick="showTab('home')"><span>⌂</span>Home</button>
+<button data-tab="workout" onclick="showTab('workout')"><span>🏋</span>Workout</button>
+<button data-tab="food" onclick="showTab('food')"><span>📷</span>Food</button>
+<button data-tab="progress" onclick="showTab('progress')"><span>↗</span>Progress</button>
+<button data-tab="settings" onclick="showTab('settings')"><span>⚙</span>Settings</button>
+</nav>
+<script>
+const KEY='rileyFitPrototypeV1';
+let data={workouts:[],meals:[],weights:[],proteinGoal:150,calorieGoal:2600};
+try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)data={...data,...saved}}catch(e){}
+let photoData='';
+const todayKey=()=>new Date().toLocaleDateString('en-CA');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function showTab(tab){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(tab).classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render();window.scrollTo(0,0)}
+function addWorkout(){const exercise=document.getElementById('exercise').value;const sets=+document.getElementById('sets').value;const reps=+document.getElementById('reps').value;if(!sets||!reps){alert('Enter sets and reps/minutes first.');return}data.workouts.unshift({id:Date.now(),date:todayKey(),time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),exercise,sets,reps,weight:+document.getElementById('weight').value||0,duration:+document.getElementById('duration').value||0,notes:document.getElementById('workoutNotes').value});document.getElementById('workoutNotes').value='';save();alert('Exercise saved!')}
+function previewPhoto(e){const file=e.target.files&&e.target.files[0];if(!file)return;if(file.size>8*1024*1024){alert('Please choose a photo smaller than 8 MB.');e.target.value='';return}const reader=new FileReader();reader.onload=()=>{photoData=reader.result;const img=document.getElementById('photoPreview');img.src=photoData;img.classList.remove('hidden')};reader.readAsDataURL(file)}
+function addMeal(){const name=document.getElementById('mealName').value.trim();if(!name){alert('Enter the meal name or ingredients.');return}data.meals.unshift({id:Date.now(),date:todayKey(),time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),name,calories:+document.getElementById('mealCalories').value||0,protein:+document.getElementById('mealProtein').value||0,carbs:+document.getElementById('mealCarbs').value||0,fat:+document.getElementById('mealFat').value||0,fibre:+document.getElementById('mealFibre').value||0,photo:photoData});['mealName','mealCalories','mealProtein','mealCarbs','mealFat','mealFibre'].forEach(id=>document.getElementById(id).value='');document.getElementById('foodPhoto').value='';document.getElementById('photoPreview').classList.add('hidden');photoData='';save();alert('Meal saved!')}
+function removeItem(type,id){if(!confirm('Delete this entry?'))return;data[type]=data[type].filter(x=>x.id!==id);save()}
+function saveGoals(){data.proteinGoal=Math.max(1,+document.getElementById('proteinGoal').value||150);data.calorieGoal=Math.max(1,+document.getElementById('calorieGoal').value||2600);save();alert('Targets saved!')}
+function saveWeight(){const w=+document.getElementById('bodyWeight').value;if(!w){alert('Enter your weight in kg.');return}data.weights.unshift({id:Date.now(),date:todayKey(),weight:w});save();alert('Weight saved!')}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='riley-fit-data.json';a.click();URL.revokeObjectURL(url)}
+function clearData(){if(!confirm('This permanently clears workouts, meals, weights and targets stored in this browser. Export first if you need a backup. Continue?'))return;localStorage.removeItem(KEY);data={workouts:[],meals:[],weights:[],proteinGoal:150,calorieGoal:2600};save()}
+function render(){const today=todayKey(),meals=data.meals.filter(m=>m.date===today),protein=meals.reduce((s,m)=>s+m.protein,0),calories=meals.reduce((s,m)=>s+m.calories,0);document.getElementById('workoutCount').textContent=data.workouts.length;document.getElementById('proteinTotal').textContent=Math.round(protein)+'g';document.getElementById('calorieTotal').textContent=Math.round(calories);document.getElementById('proteinGoalText').textContent='Target '+data.proteinGoal+'g';document.getElementById('proteinBar').style.width=Math.min(100,protein/data.proteinGoal*100)+'%';document.getElementById('proteinRemaining').textContent=Math.max(0,Math.round(data.proteinGoal-protein))+'g protein to target';document.getElementById('proteinGoal').value=data.proteinGoal;document.getElementById('calorieGoal').value=data.calorieGoal;
+const wh=document.getElementById('workoutHistory');wh.innerHTML=data.workouts.length?data.workouts.map(w=>`<div class="list-item"><div class="desc"><strong>${esc(w.exercise)}</strong><small>${esc(w.date)} · ${w.sets} sets × ${w.reps} reps/min${w.weight?' · '+w.weight+' kg':''}${w.duration?' · '+w.duration+' min':''}${w.notes?' · '+esc(w.notes):''}</small></div><button class="secondary tiny" onclick="removeItem('workouts',${w.id})">Delete</button></div>`).join(''):'<div class="empty">No exercises logged yet.</div>';
+const fh=document.getElementById('foodHistory');fh.innerHTML=meals.length?meals.map(m=>`<div class="list-item">${m.photo?`<img src="${m.photo}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:9px">`:''}<div class="desc"><strong>${esc(m.name)}</strong><small>${m.calories} kcal · ${m.protein}g protein · ${m.carbs}g carbs · ${m.fat}g fat</small></div><button class="secondary tiny" onclick="removeItem('meals',${m.id})">Delete</button></div>`).join(''):'<div class="empty">No meals logged yet.</div>';
+const recent=document.getElementById('recentActivity');const items=[...data.workouts.slice(0,3).map(w=>({date:w.date,time:w.time,title:w.exercise,detail:`${w.sets} sets × ${w.reps}`})),...meals.slice(0,3).map(m=>({date:m.date,time:m.time,title:m.name,detail:`${m.calories} kcal · ${m.protein}g protein`}))].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,5);recent.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="desc"><strong>${esc(i.title)}</strong><small>${esc(i.date)} · ${esc(i.detail)}</small></div></div>`).join(''):'<div class="empty">Your workouts and meals will appear here.</div>';
+document.getElementById('weightHistory').innerHTML=data.weights.length?data.weights.map(w=>`${esc(w.date)} — <strong>${w.weight} kg</strong>`).join('<br>'):'No weigh-ins recorded yet.'}
+document.getElementById('today').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+render();
+</script>
+</body>
+</html>
